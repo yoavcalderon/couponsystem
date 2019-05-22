@@ -1,0 +1,81 @@
+// ********************************************************************************************************************
+
+/*
+database url
+jdbc:derby://localhost:1527/coupon.sys.db
+*/
+
+// ********************************************************************************************************************
+
+
+1) -- companies table
+
+CREATE TABLE companies(
+id INTEGER GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+name VARCHAR(20),
+email VARCHAR(20),
+password VARCHAR(20),
+PRIMARY KEY (id)
+)
+// ********************************************************************************************************************
+
+2)-- customers table
+
+CREATE TABLE customers(
+id INTEGER GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+first_name VARCHAR(20),
+last_name VARCHAR(20),
+email VARCHAR(20),
+password VARCHAR(20),
+PRIMARY KEY (id)
+)
+// ********************************************************************************************************************
+
+3)-- categories table
+
+CREATE TABLE categories(
+id INTEGER GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+name VARCHAR(20),
+PRIMARY KEY (id)
+)
+// ********************************************************************************************************************
+
+INSERT INTO categories (name) VALUES ('FOOD');
+INSERT INTO categories (name) VALUES ('ELECTRICITY');
+INSERT INTO categories (name) VALUES ('RESTURANT');
+INSERT INTO categories (name) VALUES ('VACATION');
+INSERT INTO categories (name) VALUES ('MEDICAL');
+INSERT INTO categories (name) VALUES ('CAMPING');
+INSERT INTO categories (name) VALUES ('HOME');
+// ********************************************************************************************************************
+
+
+4) -- coupons table
+CREATE TABLE coupons(
+id INTEGER GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+company_id INTEGER,
+category_id INTEGER,
+title VARCHAR(20),
+description VARCHAR(20),
+start_date DATE,
+end_date DATE,
+amount INTEGER,
+price DOUBLE,
+image VARCHAR(40),
+PRIMARY KEY (id),
+FOREIGN KEY (company_id) REFERENCES companies(id),
+FOREIGN KEY (category_id) REFERENCES categories(id)
+)
+
+// ********************************************************************************************************************
+
+5) -- customers_vs_coupons table
+
+CREATE TABLE customers_vs_coupons(
+customer_id INTEGER,
+coupon_id INTEGER,
+PRIMARY KEY(customer_id, coupon_id),
+FOREIGN KEY (customer_id) REFERENCES customers(id),
+FOREIGN KEY (coupon_id) REFERENCES coupons(id)
+)
+// ********************************************************************************************************************
