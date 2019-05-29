@@ -94,7 +94,7 @@ public class CustomerFacade extends ClientFacade {
 
 	}
 
-	ArrayList<Coupon> getCustomerCoupons() throws CouponSystemException {
+	public ArrayList<Coupon> getCustomerCoupons() throws CouponSystemException {
 		return couponDAO.getAllCoupouns(customerId);
 
 	}

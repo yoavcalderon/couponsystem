@@ -183,6 +183,7 @@ public class Test {
 //					System.out.println("coupon added success");
 //					customerFacade.purchaseCoupon(c7);
 //					System.out.println(" coupon purchased");
+					System.out.println(customerFacade.getCustomerCoupons());
 					System.out.println(customerFacade.getCustomerCouponsByPrice(100));
 
 					System.out.println(customerFacade.getCustomerCouponsByCategory(Category.VACATION));
