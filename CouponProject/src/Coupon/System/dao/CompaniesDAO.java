@@ -8,6 +8,9 @@ import Coupon.System.exceptions.CouponSystemException;
 public interface CompaniesDAO {
 
 	// ********************************************************************
+	public int getCompanyId(String email, String password) throws CouponSystemException;
+
+	// ********************************************************************
 
 	public boolean isCompanyExists(String email, String password) throws CouponSystemException;
 
@@ -54,6 +57,9 @@ public interface CompaniesDAO {
 	 * @throws CouponSystemException if the company does not exist
 	 */
 	public Company getOneCompany(int CompanyID) throws CouponSystemException;
+	// ********************************************************************
+
+	Company getOneCompany(String email, String password) throws CouponSystemException;
 
 	// ********************************************************************
 

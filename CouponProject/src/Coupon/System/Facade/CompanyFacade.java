@@ -13,46 +13,40 @@ import Coupon.System.exceptions.CouponSystemException;
 public class CompanyFacade extends ClientFacade {
 	private int companyId;
 
-	// **************************************************************************************************************
-
-	public CompanyFacade(CompaniesDAO companiesDAO, CustomerDAO customerDAO, CouponDAO couponDAO, int companyId) {
+	public CompanyFacade(CompaniesDAO companiesDAO, CustomerDAO customerDAO, CouponDAO couponDAO) {
 		super(companiesDAO, customerDAO, couponDAO);
-		this.companyId = companyId;
 	}
-	// **************************************************************************************************************
 
+	/**
+	 * check the login credentials, if email and password fit or are true set the
+	 * company id for this facade and returns true otherwise returns false
+	 */
 	@Override
 	public boolean login(String email, String password) throws CouponSystemException {
-		if (companiesDAO.isCompanyExists(email, password) == true) {
+		if (companiesDAO.isCompanyExists(email, password)) {
+			companyId = companiesDAO.getCompanyId(email, password);
 			return true;
 		} else {
 
 			return false;
 		}
 	}
-	// **************************************************************************************************************
 
 	public void addCoupon(Coupon coupon) throws CouponSystemException {
+		if (couponDAO.couponCheck(companyId, coupon.getTitle())) {
+			coupon.setId(couponDAO.addCoupon(coupon));
 
-		ArrayList<Coupon> couponsarray = new ArrayList<>(companyId);
-		for (Coupon currantCoupon : couponsarray) {
+		} else {
+			throw new CouponSystemException("addCoupon failed");
 
-			if (companyId == currantCoupon.getCompanyId() && coupon.getTitle().equals(currantCoupon.getTitle())) {
-				throw new CouponSystemException(" addCoupon failed, cannot add coupon- title exists already");
-			} else {
-				couponDAO.addCoupon(coupon);
-
-			}
 		}
 
 	}
-	// **************************************************************************************************************
 
 	public Coupon updateCoupon(Coupon coupon) throws CouponSystemException {
 		couponDAO.updateCoupon(coupon);
 		return coupon;
 	}
-	// **************************************************************************************************************
 
 	public void deleteCopun(int couponId) throws CouponSystemException {
 
@@ -60,35 +54,34 @@ public class CompanyFacade extends ClientFacade {
 		couponDAO.deleteCouponPurchase(couponId);
 
 	}
-	// **************************************************************************************************************
 
 	public ArrayList<Coupon> getAllCoupons() throws CouponSystemException {
 
 		return couponDAO.getAllCoupouns(companyId);
 
 	}
-	// **************************************************************************************************************
 
 	public ArrayList<Coupon> getCouponByCategory(Category category) throws CouponSystemException {
+		ArrayList<Coupon> count = new ArrayList<Coupon>();
 		ArrayList<Coupon> coupons = couponDAO.getAllCoupouns(companyId);
 		for (Coupon coupon : coupons) {
 			if (coupon.getCategory().equals(category)) {
-				return couponDAO.getAllCoupouns();
-
-			} else {
-				throw new CouponSystemException("getCouponByCategory failed not coupons of this category were found");
+				count.add(coupon);
 			}
-
 		}
-		return null;
+		if (count.size() == 0)
+			throw new CouponSystemException("getCouponByCategory failed");
+
+		return count;
 
 	}
-	// **************************************************************************************************************
 
 	public ArrayList<Coupon> getCompanyCoupons(double maxPrice) throws CouponSystemException {
+		ArrayList<Coupon> count = new ArrayList<Coupon>();
 		ArrayList<Coupon> coupons = couponDAO.getAllCoupouns(companyId);
 		for (Coupon coupon : coupons) {
-			if (coupon.getPrice() > maxPrice) {
+			if (coupon.getPrice() < maxPrice) {
+				count.add(coupon);
 				return couponDAO.getAllCoupouns();
 
 			} else {
@@ -96,10 +89,9 @@ public class CompanyFacade extends ClientFacade {
 			}
 
 		}
-		return null;
+		return count;
 
 	}
-	// **************************************************************************************************************
 
 	public Company getCompanyDetails() throws CouponSystemException {
 		return companiesDAO.getOneCompany(companyId);

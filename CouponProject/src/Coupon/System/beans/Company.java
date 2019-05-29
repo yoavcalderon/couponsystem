@@ -69,8 +69,8 @@ public class Company {
 
 	@Override
 	public String toString() {
-		return "Company [id : " + id + ", \nname : " + name + ", \nemail : " + email + ", \npassword : " + password
-				+ ", \ncompanyarraylist : " + companyarraylist + "]";
+		return "Company id : " + id + ", \nname : " + name + ", \nemail : " + email + ", \npassword : " + password
+				+ ", \ncompanyCouponarraylist : " + companyarraylist + "";
 	}
 
 }

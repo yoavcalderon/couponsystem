@@ -88,7 +88,7 @@ public class AdminFacade extends ClientFacade {
 	}
 
 	// ********************************************************************
-	public ArrayList<Company> returnAllCompanies() throws CouponSystemException {
+	public ArrayList<Company> getAllCompanies() throws CouponSystemException {
 		return companiesDAO.getAllCompanies();
 
 	}
@@ -100,16 +100,13 @@ public class AdminFacade extends ClientFacade {
 
 	// *******************************************************************************************************************
 	public void addCustomer(Customer customer) throws CouponSystemException {
-		ArrayList<Customer> customerArray = customerDAO.getAllCustomers();
-		for (Customer customer1 : customerArray) {
-			if (customer1.getEmail().equals(customer.getEmail())) {
-				System.out.println("addCustomer failed, a customer with this email exists already ");
+		if (customerDAO.isCustomerExist(customer.getEmail(), customer.getPassword())) {
+			throw new CouponSystemException("addCustomer failed the customer exists");
 
-				return;
-			}
+		} else {
+			customerDAO.addCustomer(customer);
+
 		}
-		addCustomer(customer);
-
 	}
 
 	// ********************************************************************
@@ -145,7 +142,7 @@ public class AdminFacade extends ClientFacade {
 	}
 	// **************************************************************************************************************
 
-	public ArrayList<Customer> getAllCustomers(Customer customer) throws CouponSystemException {
+	public ArrayList<Customer> getAllCustomers() throws CouponSystemException {
 		return customerDAO.getAllCustomers();
 
 	}
