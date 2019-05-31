@@ -38,8 +38,15 @@ public class CustomerFacade extends ClientFacade {
 
 	}
 
+	/**
+	 * allows customer to purchase an existing coupon
+	 * 
+	 * @param coupon
+	 * @throws CouponSystemException
+	 */
 	public void purchaseCoupon(Coupon coupon) throws CouponSystemException {
-		ArrayList<Coupon> coupons = new ArrayList<>(customerId);
+		ArrayList<Coupon> coupons = getCustomerCoupons();
+
 		for (Coupon currantcoupon : coupons) {
 
 			if (currantcoupon.getTitle().equals(coupon.getTitle())) {
@@ -49,7 +56,7 @@ public class CustomerFacade extends ClientFacade {
 		}
 
 		Calendar cal = Calendar.getInstance();
-
+// automaticly checks if coupon amount is greater then 0, if coupon has expired and after purchase reduces the coupon amount by 1
 		if (coupon.getAmount() > 0 || coupon.getEndDate().after(cal.getTime())) {
 			couponDAO.addCouponPurchase(customerId, coupon.getId());
 			coupon.setAmount(coupon.getAmount() - 1);
@@ -57,19 +64,20 @@ public class CustomerFacade extends ClientFacade {
 
 	}
 
+	/**
+	 * gets all coupons of a certin category
+	 * 
+	 * @param category
+	 * @return
+	 * @throws CouponSystemException
+	 */
 	public ArrayList<Coupon> getCustomerCouponsByCategory(Category category) throws CouponSystemException {
 		ArrayList<Coupon> count = new ArrayList<Coupon>();
-		ArrayList<Coupon> getCustomerCoupons = couponDAO.getAllCoupouns(customerId);
+		ArrayList<Coupon> getCustomerCoupons = couponDAO.getAllCustomerCoupouns(customerId);
 		for (Coupon coupon : getCustomerCoupons) {
 
 			if (category.equals(coupon.getCategory())) {
 				count.add(coupon);
-				couponDAO.getAllCoupouns();
-			} else {
-				if (count.size() == 0) {
-
-					throw new CouponSystemException("getCustomerCouponsByCategory failed");
-				}
 
 			}
 		}
@@ -77,16 +85,19 @@ public class CustomerFacade extends ClientFacade {
 		return count;
 	}
 
+	/**
+	 * gets all coupons that are lower then the currently set maxprice
+	 * 
+	 * @param maxPrice
+	 * @return
+	 * @throws CouponSystemException
+	 */
 	public ArrayList<Coupon> getCustomerCouponsByPrice(double maxPrice) throws CouponSystemException {
 		ArrayList<Coupon> count = new ArrayList<Coupon>();
-		ArrayList<Coupon> coupons = couponDAO.getAllCoupouns(customerId);
+		ArrayList<Coupon> coupons = couponDAO.getAllCustomerCoupouns(customerId);
 		for (Coupon coupon : coupons) {
-			if (coupon.getPrice() < maxPrice) {
+			if (coupon.getPrice() <= maxPrice) {
 				count.add(coupon);
-				throw new CouponSystemException("getCustomerCouponsByPrice failed");
-
-			} else {
-				couponDAO.getAllCoupouns();
 
 			}
 		}
@@ -94,12 +105,43 @@ public class CustomerFacade extends ClientFacade {
 
 	}
 
+	/**
+	 * returns all coupons belonging to a customer by checking his id
+	 * 
+	 * @return
+	 * @throws CouponSystemException
+	 */
 	public ArrayList<Coupon> getCustomerCoupons() throws CouponSystemException {
-		return couponDAO.getAllCoupouns(customerId);
+		return couponDAO.getAllCustomerCoupouns(customerId);
 
 	}
 
+	/**
+	 * returns all the customer information
+	 * 
+	 * @return
+	 * @throws CouponSystemException
+	 */
 	public Customer getCustomerDetails() throws CouponSystemException {
 		return customerDAO.getCustomerbyId(customerId);
 	}
+
+	/**
+	 * deletes a purchased coupon from the customer
+	 * 
+	 * @param coupon
+	 * @throws CouponSystemException
+	 */
+	public void deleteCouponPurchase(Coupon coupon) throws CouponSystemException {
+		ArrayList<Coupon> coupons = getCustomerCoupons();
+		for (Coupon currentCoupon : coupons) {
+			if (currentCoupon.getId() == coupon.getId()) {
+
+				couponDAO.deleteCouponPurchase(coupon.getId());
+				System.out.println("deleted coupon purchuse" + coupon.getId());
+			}
+
+		}
+	}
+
 }

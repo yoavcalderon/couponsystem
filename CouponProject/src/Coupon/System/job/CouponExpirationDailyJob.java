@@ -25,7 +25,9 @@ public class CouponExpirationDailyJob implements Runnable {
 
 		while (!quit) {
 			try {
-				// Thread.sleep(1000 * 60 * 60 * 24);//24HRS
+
+				// Thread.sleep(1000 * 60 * 60 * 24);// 24HRS==> currently disabled for test
+				// Convenience
 				Thread.sleep(1000 * 10);// minute- for test only
 				System.out.println(" job starts deleting coupons cycle");
 				// get ids of expired coupons

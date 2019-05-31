@@ -15,7 +15,9 @@ import Coupon.System.dao.CouponDAO;
 import Coupon.System.exceptions.CouponSystemException;
 
 public class CouponDBDAO implements CouponDAO {
-
+	/**
+	 * a database related function that adds a coupon
+	 */
 	@Override
 	public int addCoupon(Coupon coupon) throws CouponSystemException {
 		Connection con = ConnectionPool.getInstance().getConnection();
@@ -28,16 +30,10 @@ public class CouponDBDAO implements CouponDAO {
 			pstmt.setInt(5, coupon.getAmount());
 			pstmt.setDouble(6, coupon.getPrice());
 			pstmt.setString(7, coupon.getImage());
-			// ordinal returns index of int in array as what it is, food = 0, second value
-			// in enum= 1 etc.
 			pstmt.setInt(8, coupon.getCategory().ordinal() + 1);
 			pstmt.setInt(9, coupon.getCompanyId());
 			pstmt.executeUpdate();
 
-			/**
-			 * this function returns results set. this result set holds the auto generated
-			 * id we returned with the method generated keys
-			 */
 			ResultSet rs = pstmt.getGeneratedKeys();
 			rs.next();
 			int id = rs.getInt(1);
@@ -51,6 +47,10 @@ public class CouponDBDAO implements CouponDAO {
 		}
 	}
 
+	/**
+	 * database related function that allows us to update the coupon where id
+	 * matches
+	 */
 	@Override
 	public void updateCoupon(Coupon coupon) throws CouponSystemException {
 		Connection con = ConnectionPool.getInstance().getConnection();
@@ -76,6 +76,9 @@ public class CouponDBDAO implements CouponDAO {
 
 	}
 
+	/**
+	 * database related boolean that deletes coupon where id matches
+	 */
 	@Override
 	public boolean deleteCoupon(int couponID) throws CouponSystemException {
 		Connection con = ConnectionPool.getInstance().getConnection();
@@ -100,11 +103,11 @@ public class CouponDBDAO implements CouponDAO {
 
 	}
 
+	/**
+	 * a database related array that returns all coupons
+	 */
 	@Override
 	public ArrayList<Coupon> getAllCoupouns() throws CouponSystemException {
-		/**
-		 * gets an instance of connection from connection pool
-		 */
 		Connection con = ConnectionPool.getInstance().getConnection();
 		String sql = "select * from coupons";
 		try (PreparedStatement pstmt = con.prepareStatement(sql);) {
@@ -134,15 +137,17 @@ public class CouponDBDAO implements CouponDAO {
 		}
 	}
 
+	/**
+	 * database related list that returns all company coupons where companyId
+	 * matches
+	 */
 	@Override
-	public ArrayList<Coupon> getAllCoupouns(int companyID) throws CouponSystemException {
-		/**
-		 * gets an instance of connection from connection pool
-		 */
+	public ArrayList<Coupon> getAllCompanyCoupouns(int companyId) throws CouponSystemException {
+
 		Connection con = ConnectionPool.getInstance().getConnection();
 		String sql = "select * from coupons join categories on coupons.category_id = categories.id where company_id=?";
 		try (PreparedStatement pstmt = con.prepareStatement(sql);) {
-			pstmt.setInt(1, companyID);
+			pstmt.setInt(1, companyId);
 			ResultSet rs = pstmt.executeQuery();
 			ArrayList<Coupon> coupons = new ArrayList<>();
 			while (rs.next()) {
@@ -155,7 +160,7 @@ public class CouponDBDAO implements CouponDAO {
 				c.setAmount(rs.getInt("amount"));
 				c.setPrice(rs.getDouble("price"));
 				c.setImage(rs.getString("image"));
-				c.setCompanyId(companyID);
+				c.setCompanyId(companyId);
 				c.setId(rs.getInt("id"));
 				coupons.add(c);
 			}
@@ -169,11 +174,54 @@ public class CouponDBDAO implements CouponDAO {
 		}
 	}
 
+	/**
+	 * database related function that brings back all coupons belonging to a
+	 * specific customer by his id
+	 */
+	@Override
+	public ArrayList<Coupon> getAllCustomerCoupouns(int customerId) throws CouponSystemException {
+
+		Connection con = ConnectionPool.getInstance().getConnection();
+		String sql = "select * from coupons join customers_vs_coupons on coupons.id = customers_vs_coupons.coupon_id where customer_id=?";
+		// get all coupon ids from id list
+		// String sql2 = "select * from coupons where id=?";
+		try (PreparedStatement pstmt = con.prepareStatement(sql);
+		// PreparedStatement pstmt2 = con.prepareStatement(sql2);
+		) {
+			pstmt.setInt(1, customerId);
+			ResultSet rs = pstmt.executeQuery();
+			ArrayList<Coupon> coupons = new ArrayList<>();
+			while (rs.next()) {
+				Coupon c = new Coupon();
+				c.setCategory(Category.values()[rs.getInt("CATEGORY_ID") - 1]);
+				c.setTitle(rs.getString("title"));
+				c.setDescription(rs.getString("description"));
+				c.setStartDate(rs.getDate("start_date"));
+				c.setEndDate(rs.getDate("end_date"));
+				c.setAmount(rs.getInt("amount"));
+				c.setPrice(rs.getDouble("price"));
+				c.setImage(rs.getString("image"));
+				c.setCompanyId(rs.getInt("company_id"));
+				c.setId(rs.getInt("id"));
+				coupons.add(c);
+			}
+			System.out.println(coupons);
+
+			return coupons;
+		} catch (
+
+		SQLException e) {
+			throw new CouponSystemException(" getAllCoupons of specific company failed", e);
+		} finally {
+			ConnectionPool.getInstance().restoreConnection(con);
+		}
+	}
+
+	/**
+	 * database related function that returns coupon where id matches
+	 */
 	@Override
 	public Coupon getOneCoupon(int coupounID) throws CouponSystemException {
-		/**
-		 * gets an instance of connection from connection pool
-		 */
 		Connection con = ConnectionPool.getInstance().getConnection();
 		String sql = "select * from coupons where id = ?";
 		try (PreparedStatement pstmt = con.prepareStatement(sql);) {
@@ -205,6 +253,9 @@ public class CouponDBDAO implements CouponDAO {
 		}
 	}
 
+	/**
+	 * a database related function that allows the customer to purchase a coupon
+	 */
 	@Override
 	public void addCouponPurchase(int customerID, int couponID) throws CouponSystemException {
 		Connection con = ConnectionPool.getInstance().getConnection();
@@ -223,6 +274,9 @@ public class CouponDBDAO implements CouponDAO {
 		}
 	}
 
+	/**
+	 * a database related function that allows to delete purchase coupons
+	 */
 	@Override
 	public void deleteCouponPurchase(Integer... couponIDs) throws CouponSystemException {
 		Connection con = ConnectionPool.getInstance().getConnection();
@@ -243,6 +297,9 @@ public class CouponDBDAO implements CouponDAO {
 		}
 	}
 
+	/**
+	 * database related function that gets all expired coupon ids
+	 */
 	@Override
 	public Integer[] getExpiredCouponsIds() throws CouponSystemException {
 		Connection con = ConnectionPool.getInstance().getConnection();
@@ -262,10 +319,13 @@ public class CouponDBDAO implements CouponDAO {
 		}
 	}
 
+	/**
+	 * database related boolean that checks if coupon exists by title
+	 */
 	@Override
 	public boolean couponCheck(int companyId, String title) throws CouponSystemException {
 		ArrayList<Coupon> couponarray = new ArrayList<>();
-		couponarray = getAllCoupouns(companyId);
+		couponarray = getAllCompanyCoupouns(companyId);
 
 		for (Coupon coupon : couponarray) {
 			if (coupon.getTitle().equals(title)) {
@@ -274,6 +334,33 @@ public class CouponDBDAO implements CouponDAO {
 
 		}
 		return true;
+	}
+
+	/**
+	 * a database related function that allows to delete purchase coupon
+	 */
+	@Override
+	public boolean deleteCouponPurchase(int customerID, int couponID) throws CouponSystemException {
+		Connection con = ConnectionPool.getInstance().getConnection();
+		String sql = " delete from customers_vs_coupons where coupon_id=? AND where customer_id= ?) ";
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setInt(2, couponID);
+			pstmt.setInt(1, customerID);
+			int rowCount = pstmt.executeUpdate();
+			if (rowCount == 0) {
+				return false;
+
+			} else {
+				return true;
+			}
+
+		} catch (SQLException e) {
+			throw new CouponSystemException("method addCouponPurchase has failed", e);
+
+		} finally {
+			ConnectionPool.getInstance().restoreConnection(con);
+		}
 	}
 
 }

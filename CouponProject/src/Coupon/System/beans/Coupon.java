@@ -2,6 +2,7 @@ package Coupon.System.beans;
 
 import java.sql.Date;
 
+//fields
 public class Coupon {
 	private int id;
 	private int companyId;
@@ -14,8 +15,7 @@ public class Coupon {
 	private double price;
 	private String image;
 
-	// ********************************************************************************************************************
-
+//ctor
 	public Coupon(int id, int companyId, Category category, String title, String description, Date startDate,
 			Date endDate, int amount, double price, String image) {
 		this.id = id;
@@ -30,12 +30,11 @@ public class Coupon {
 		this.image = image;
 	}
 
-	// ********************************************************************************************************************
 //empty CTOR
 	public Coupon() {
-		// ********************************************************************************************************************
 	}
 
+//getters setters
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -116,14 +115,12 @@ public class Coupon {
 		return image;
 	}
 
-	// ********************************************************************************************************************
-
+//to string
 	@Override
 	public String toString() {
 		return "Coupon [id : " + id + ",\n companyId : " + companyId + ",\n category : " + category + ",\n title : "
 				+ title + ", \ndescription : " + description + ", \nstartDate : " + startDate + ", \nendDate : "
 				+ endDate + ", \namount : " + amount + ", \nprice : " + price + ", \nimage : " + image + "]";
-		// ********************************************************************************************************************
 
 	}
 

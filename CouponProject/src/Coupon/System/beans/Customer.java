@@ -3,8 +3,7 @@ package Coupon.System.beans;
 import java.util.ArrayList;
 
 public class Customer {
-	// ********************************************************************************************************************
-
+//fields
 	private int id;
 	private String firstName;
 	private String lastName;
@@ -12,8 +11,7 @@ public class Customer {
 	private String password;
 	ArrayList<Coupon> customerarraylist = new ArrayList<Coupon>();
 
-	// ********************************************************************************************************************
-
+//CTOR
 	public Customer(int id, String firstName, String lastName, String email, String password,
 			ArrayList<Coupon> customerarraylist) {
 		this.id = id;
@@ -25,13 +23,12 @@ public class Customer {
 
 	}
 
-	// ********************************************************************************************************************
 	// emptyCTOR
 	public Customer() {
 		super();
 	}
-	// ********************************************************************************************************************
 
+//getters setters
 	public int getId() {
 		return id;
 	}
@@ -52,13 +49,9 @@ public class Customer {
 		return password;
 	}
 
-	// ********************************************************************************************************************
-
 	public ArrayList<Coupon> getCustomerarraylist() {
 		return customerarraylist;
 	}
-
-	// ********************************************************************************************************************
 
 	public void setId(int id) {
 		this.id = id;
@@ -83,12 +76,12 @@ public class Customer {
 	public void setCustomerarraylist(ArrayList<Coupon> customerarraylist) {
 		this.customerarraylist = customerarraylist;
 	}
-	// ********************************************************************************************************************
 
+//to string
 	@Override
 	public String toString() {
 		return " Customer id :" + id + ", \nfirstName : " + firstName + ", \nlastName : " + lastName + ", \nemail : "
-				+ email + ", \npassword : " + password + ", \ncustomerarraylist : " + customerarraylist + "]";
+				+ email + ", \npassword : " + password + ", \ncustomerarraylist : " + customerarraylist + "";
 	}
 
 }

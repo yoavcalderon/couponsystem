@@ -27,6 +27,15 @@ public class LoginManager {
 		return instance;
 	}
 
+	/**
+	 * logs in to an account of a client specified by the email and password
+	 * 
+	 * @param email
+	 * @param password
+	 * @param clientType
+	 * @return
+	 * @throws CouponSystemException
+	 */
 	public ClientFacade login(String email, String password, ClientType clientType) throws CouponSystemException {
 		ClientFacade clientFacade = null;
 		switch (clientType) {

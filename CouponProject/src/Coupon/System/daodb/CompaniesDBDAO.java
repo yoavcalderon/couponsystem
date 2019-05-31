@@ -12,24 +12,19 @@ import Coupon.System.dao.CompaniesDAO;
 import Coupon.System.exceptions.CouponSystemException;
 
 public class CompaniesDBDAO implements CompaniesDAO {
-
-	// ********************************************************************************************************************
-
+	/**
+	 * a database related boolean that checks if a company exists by mail and
+	 * password
+	 */
 	@Override
 	public boolean isCompanyExists(String email, String password) throws CouponSystemException {
-		/**
-		 * gets an instance of connection from connection pool
-		 */
 		Connection con = ConnectionPool.getInstance().getConnection();
 		String sql = "select * from companies where email = ? OR password = ?";
 		try (PreparedStatement pstmt = con.prepareStatement(sql);) {
 			pstmt.setString(1, email);
 			pstmt.setString(2, password);
 			ResultSet rs = pstmt.executeQuery();
-			/**
-			 * if the new current row is valid Returns true, false if there are no more
-			 * rows.
-			 */
+
 			return rs.next();
 		} catch (
 
@@ -40,30 +35,18 @@ public class CompaniesDBDAO implements CompaniesDAO {
 		}
 	}
 
-	// ********************************************************************************************************************
-
+	/**
+	 * a database related function that adds a company
+	 */
 	@Override
 	public int addCompany(Company company) throws CouponSystemException {
-		/**
-		 * gets an instance of connection from connection pool
-		 */
 		Connection con = ConnectionPool.getInstance().getConnection();
 		String sql = "insert into companies(name, email, password) values(?,?,?)";
-
-		/**
-		 * when the insert statement generates numbers automaticly, we can get these
-		 * numbers if we ask. the way to ask is through giving the method a special int
-		 * value
-		 */
 		try (PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);) {
 			pstmt.setString(1, company.getName());
 			pstmt.setString(2, company.getEmail());
 			pstmt.setString(3, company.getPassword());
 			pstmt.executeUpdate();
-			/**
-			 * this function returns results set. this result set holds the auto generated
-			 * id we returned with the method generated keys
-			 */
 			ResultSet rs = pstmt.getGeneratedKeys();
 			rs.next();
 			int id = rs.getInt(1);
@@ -78,8 +61,10 @@ public class CompaniesDBDAO implements CompaniesDAO {
 
 	}
 
-	// ********************************************************************************************************************
-
+	/**
+	 * a database related function that updates an existing company per the
+	 * specified idD
+	 */
 	@Override
 	public void updateCompany(Company company) throws CouponSystemException {
 
@@ -103,13 +88,12 @@ public class CompaniesDBDAO implements CompaniesDAO {
 		}
 	}
 
-	// ********************************************************************************************************************
-
+	/**
+	 * a database related boolean that deletes an existing company per the specified
+	 * company id
+	 */
 	@Override
 	public boolean deleteCompany(int companyID) throws CouponSystemException {
-		/**
-		 * gets an instance of connection from connection pool
-		 */
 		Connection con = ConnectionPool.getInstance().getConnection();
 		String sql = "delete from companies where id = ?";
 		try (PreparedStatement pstmt = con.prepareStatement(sql);) {
@@ -130,13 +114,11 @@ public class CompaniesDBDAO implements CompaniesDAO {
 		}
 	}
 
-	// ********************************************************************************************************************
-
+	/**
+	 * returns an array of all companies
+	 */
 	@Override
 	public ArrayList<Company> getAllCompanies() throws CouponSystemException {
-		/**
-		 * gets an instance of connection from connection pool
-		 */
 		Connection con = ConnectionPool.getInstance().getConnection();
 		String sql = "select * from companies";
 		try (PreparedStatement pstmt = con.prepareStatement(sql);) {
@@ -160,13 +142,11 @@ public class CompaniesDBDAO implements CompaniesDAO {
 		}
 	}
 
-	// ********************************************************************************************************************
-
+	/**
+	 * returns a specific company by specified id
+	 */
 	@Override
 	public Company getOneCompany(int CompanyID) throws CouponSystemException {
-		/**
-		 * gets an instance of connection from connection pool
-		 */
 		Connection con = ConnectionPool.getInstance().getConnection();
 		String sql = "select * from companies where id = ?";
 		try (PreparedStatement pstmt = con.prepareStatement(sql);) {
@@ -192,11 +172,11 @@ public class CompaniesDBDAO implements CompaniesDAO {
 		}
 	}
 
+	/**
+	 * returns a specific company by its email and password
+	 */
 	@Override
 	public Company getOneCompany(String email, String password) throws CouponSystemException {
-		/**
-		 * gets an instance of connection from connection pool
-		 */
 		Connection con = ConnectionPool.getInstance().getConnection();
 		String sql = "select * from companies where email AND password = ?";
 		try (PreparedStatement pstmt = con.prepareStatement(sql);) {
@@ -223,6 +203,9 @@ public class CompaniesDBDAO implements CompaniesDAO {
 		}
 	}
 
+	/**
+	 * returns a specific company id by email and password
+	 */
 	@Override
 	public int getCompanyId(String email, String password) throws CouponSystemException {
 
@@ -232,10 +215,6 @@ public class CompaniesDBDAO implements CompaniesDAO {
 			pstmt.setString(1, email);
 			pstmt.setString(2, password);
 			ResultSet rs = pstmt.executeQuery();
-			/**
-			 * if the new current row is valid Returns true, false if there are no more
-			 * rows.
-			 */
 			rs.next();
 			int id = rs.getInt(1);
 			return id;

@@ -2,6 +2,7 @@ package Coupon.System.beans;
 
 import java.util.ArrayList;
 
+//fields
 public class Company {
 	private int id;
 	private String name;
@@ -9,13 +10,11 @@ public class Company {
 	private String password;
 	private ArrayList<Coupon> companyarraylist = new ArrayList<Coupon>();
 
-	// ********************************************************************************************************************
 	// empty CTOR
 	public Company() {
 	}
 
-	// ********************************************************************************************************************
-
+//ctor
 	public Company(int id, String name, String email, String password, ArrayList<Coupon> companyarraylist) {
 		super();
 		this.id = id;
@@ -24,8 +23,7 @@ public class Company {
 		this.password = password;
 		this.companyarraylist = companyarraylist;
 
-		// ********************************************************************************************************************
-
+//getters setters
 	}
 
 	public void setId(int id) {
@@ -43,7 +41,6 @@ public class Company {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	// ********************************************************************************************************************
 
 	public int getId() {
 		return id;
@@ -65,8 +62,7 @@ public class Company {
 		return companyarraylist;
 	}
 
-	// ********************************************************************************************************************
-
+//to string
 	@Override
 	public String toString() {
 		return "Company id : " + id + ", \nname : " + name + ", \nemail : " + email + ", \npassword : " + password

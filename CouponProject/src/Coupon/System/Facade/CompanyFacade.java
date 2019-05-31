@@ -32,6 +32,12 @@ public class CompanyFacade extends ClientFacade {
 		}
 	}
 
+	/**
+	 * adds a coupon after checking it per specified title
+	 * 
+	 * @param coupon
+	 * @throws CouponSystemException
+	 */
 	public void addCoupon(Coupon coupon) throws CouponSystemException {
 		if (couponDAO.couponCheck(companyId, coupon.getTitle())) {
 			coupon.setId(couponDAO.addCoupon(coupon));
@@ -43,27 +49,54 @@ public class CompanyFacade extends ClientFacade {
 
 	}
 
+	/**
+	 * updates coupon parameters and information
+	 * 
+	 * @param coupon
+	 * @return
+	 * @throws CouponSystemException
+	 */
 	public Coupon updateCoupon(Coupon coupon) throws CouponSystemException {
 		couponDAO.updateCoupon(coupon);
 		return coupon;
 	}
 
-	public void deleteCopun(int couponId) throws CouponSystemException {
+	/**
+	 * deletes a coupon- coupon will no longer exist even if it was previously
+	 * purchased
+	 * 
+	 * @param couponId
+	 * @throws CouponSystemException
+	 */
+	public void deleteCoupon(int couponId) throws CouponSystemException {
 
 		couponDAO.deleteCoupon(couponId);
 		couponDAO.deleteCouponPurchase(couponId);
 
 	}
 
+	/**
+	 * returns all company coupons
+	 * 
+	 * @return
+	 * @throws CouponSystemException
+	 */
 	public ArrayList<Coupon> getAllCoupons() throws CouponSystemException {
 
-		return couponDAO.getAllCoupouns(companyId);
+		return couponDAO.getAllCompanyCoupouns(companyId);
 
 	}
 
+	/**
+	 * returns all company coupons belonging to a specific category
+	 * 
+	 * @param category
+	 * @return
+	 * @throws CouponSystemException
+	 */
 	public ArrayList<Coupon> getCouponByCategory(Category category) throws CouponSystemException {
 		ArrayList<Coupon> count = new ArrayList<Coupon>();
-		ArrayList<Coupon> coupons = couponDAO.getAllCoupouns(companyId);
+		ArrayList<Coupon> coupons = couponDAO.getAllCompanyCoupouns(companyId);
 		for (Coupon coupon : coupons) {
 			if (coupon.getCategory().equals(category)) {
 				count.add(coupon);
@@ -76,9 +109,16 @@ public class CompanyFacade extends ClientFacade {
 
 	}
 
+	/**
+	 * returns all the company coupons by their price
+	 * 
+	 * @param maxPrice
+	 * @return
+	 * @throws CouponSystemException
+	 */
 	public ArrayList<Coupon> getCompanyCoupons(double maxPrice) throws CouponSystemException {
 		ArrayList<Coupon> count = new ArrayList<Coupon>();
-		ArrayList<Coupon> coupons = couponDAO.getAllCoupouns(companyId);
+		ArrayList<Coupon> coupons = couponDAO.getAllCompanyCoupouns(companyId);
 		for (Coupon coupon : coupons) {
 			if (coupon.getPrice() < maxPrice) {
 				count.add(coupon);
@@ -93,6 +133,12 @@ public class CompanyFacade extends ClientFacade {
 
 	}
 
+	/**
+	 * returns all company details by company id
+	 * 
+	 * @return
+	 * @throws CouponSystemException
+	 */
 	public Company getCompanyDetails() throws CouponSystemException {
 		return companiesDAO.getOneCompany(companyId);
 

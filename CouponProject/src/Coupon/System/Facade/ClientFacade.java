@@ -5,21 +5,25 @@ import Coupon.System.dao.CouponDAO;
 import Coupon.System.dao.CustomerDAO;
 import Coupon.System.exceptions.CouponSystemException;
 
-// ********************************************************************
-
 public abstract class ClientFacade {
 	protected CompaniesDAO companiesDAO;
 	protected CustomerDAO customerDAO;
 	protected CouponDAO couponDAO;
-	// ********************************************************************
 
 	public ClientFacade(CompaniesDAO companiesDAO, CustomerDAO customerDAO, CouponDAO couponDAO) {
 		this.companiesDAO = companiesDAO;
 		this.customerDAO = customerDAO;
 		this.couponDAO = couponDAO;
 	}
-	// ********************************************************************
 
+	/**
+	 * logs in per specified email and password
+	 * 
+	 * @param email
+	 * @param password
+	 * @return
+	 * @throws CouponSystemException
+	 */
 	public abstract boolean login(String email, String password) throws CouponSystemException;
 
 }

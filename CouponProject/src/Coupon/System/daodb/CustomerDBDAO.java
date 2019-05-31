@@ -13,6 +13,10 @@ import Coupon.System.exceptions.CouponSystemException;
 
 public class CustomerDBDAO implements CustomerDAO {
 
+	/**
+	 * a database related boolean that checks if customer exists by strings email
+	 * and password
+	 */
 	@Override
 	public boolean isCustomerExist(String email, String password) throws CouponSystemException {
 		Connection con = ConnectionPool.getInstance().getConnection();
@@ -31,29 +35,32 @@ public class CustomerDBDAO implements CustomerDAO {
 		}
 	}
 
+	/**
+	 * database related function that adds a customer to database by name email and
+	 * password
+	 */
 	@Override
 	public int addCustomer(Customer cust) throws CouponSystemException {
-		/**
-		 * gets an instance of connection from connection pool
-		 */
+
+		// gets an instance of connection from connection pool
+
 		Connection con = ConnectionPool.getInstance().getConnection();
 		String sql = "insert into customers(first_name, last_name, email, password) values(?,?,?,?)";
 
-		/**
-		 * when the insert statement generates numbers automaticly, we can get these
-		 * numbers if we ask. the way to ask is through giving the method a special int
-		 * value
-		 */
+		// when the insert statement generates numbers automaticly, we can get these
+		// numbers if we ask. the way to ask is through giving the method a special int
+		// value
+
 		try (PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);) {
 			pstmt.setString(1, cust.getFirstName());
 			pstmt.setString(2, cust.getLastName());
 			pstmt.setString(3, cust.getEmail());
 			pstmt.setString(4, cust.getPassword());
 			pstmt.executeUpdate();
-			/**
-			 * this function returns results set. this result set holds the auto generated
-			 * id we returned with the method generated keys
-			 */
+
+			// this function returns results set. this result set holds the auto generated
+			// id we returned with the method generated keys
+
 			ResultSet rs = pstmt.getGeneratedKeys();
 			rs.next();
 			int id = rs.getInt(1);
@@ -68,11 +75,11 @@ public class CustomerDBDAO implements CustomerDAO {
 
 	}
 
+	/**
+	 * database related boolean that deletes customer where the customer id matches
+	 */
 	@Override
 	public boolean deleteCustomer(Customer cust) throws CouponSystemException {
-		/**
-		 * gets an instance of connection from connection pool
-		 */
 		Connection con = ConnectionPool.getInstance().getConnection();
 		String sql = "delete from customers where id = ?";
 		try (PreparedStatement pstmt = con.prepareStatement(sql);) {
@@ -93,11 +100,12 @@ public class CustomerDBDAO implements CustomerDAO {
 		}
 	}
 
+	/**
+	 * database related function that allows us to update customer details where id
+	 * matches
+	 */
 	@Override
 	public void updateCustomer(Customer cust) throws CouponSystemException {
-		/**
-		 * gets an instance of connection from connection pool
-		 */
 		Connection con = ConnectionPool.getInstance().getConnection();
 		String sql = "update customers set first_name=?, last_name=?, email=?, password=? where id = ?";
 		try (PreparedStatement pstmt = con.prepareStatement(sql);) {
@@ -121,11 +129,11 @@ public class CustomerDBDAO implements CustomerDAO {
 		}
 	}
 
+	/**
+	 * returns an array filled with all customers
+	 */
 	@Override
 	public ArrayList<Customer> getAllCustomers() throws CouponSystemException {
-		/**
-		 * gets an instance of connection from connection pool
-		 */
 		Connection con = ConnectionPool.getInstance().getConnection();
 		String sql = "select * from customers";
 		try (PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -150,11 +158,11 @@ public class CustomerDBDAO implements CustomerDAO {
 		}
 	}
 
+	/**
+	 * returns specific customer by id
+	 */
 	@Override
 	public Customer getCustomerbyId(int customerId) throws CouponSystemException {
-		/**
-		 * gets an instance of connection from connection pool
-		 */
 		Connection con = ConnectionPool.getInstance().getConnection();
 		String sql = "select * from customers where id = ?";
 		try (PreparedStatement pstmt = con.prepareStatement(sql);) {
@@ -180,11 +188,11 @@ public class CustomerDBDAO implements CustomerDAO {
 		}
 	}
 
+	/**
+	 * returns specific customer by email and password
+	 */
 	@Override
 	public Customer getCustomer(String email, String password) throws CouponSystemException {
-		/**
-		 * gets an instance of connection from connection pool
-		 */
 		Connection con = ConnectionPool.getInstance().getConnection();
 		String sql = "select * from customers where email = ? AND password = ?";
 		try (PreparedStatement pstmt = con.prepareStatement(sql);) {
