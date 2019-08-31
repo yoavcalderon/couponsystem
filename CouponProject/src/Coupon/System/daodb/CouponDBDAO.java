@@ -323,7 +323,7 @@ public class CouponDBDAO implements CouponDAO {
 	 * database related boolean that checks if coupon exists by title
 	 */
 	@Override
-	public boolean couponCheck(int companyId, String title) throws CouponSystemException {
+	public boolean ExistsByCoupon_IdAndCoupon_title(int companyId, String title) throws CouponSystemException {
 		ArrayList<Coupon> couponarray = new ArrayList<>();
 		couponarray = getAllCompanyCoupouns(companyId);
 

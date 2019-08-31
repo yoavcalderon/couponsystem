@@ -81,7 +81,7 @@ public interface CouponDAO {
 	 * @return
 	 * @throws CouponSystemException
 	 */
-	boolean couponCheck(int companyId, String title) throws CouponSystemException;
+	boolean ExistsByCoupon_IdAndCoupon_title(int companyId, String title) throws CouponSystemException;
 
 	/**
 	 * deletes the coupon purchase from the customer by customer and coupon id
