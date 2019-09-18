@@ -37,9 +37,9 @@ public class CouponExpirationDailyJob implements Runnable {
 		while (!quit) {
 			try {
 
-				// Thread.sleep(1000 * 60 * 60 * 24);// 24HRS==> currently disabled for test
+				Thread.sleep(1000 * 60 * 60 * 24);// 24HRS==> currently disabled for test
 				// Convenience
-				Thread.sleep(1000 * 10);// minute- for test only
+//				Thread.sleep(1000 * 10);// minute- for test only
 				System.out.println(" job starts deleting coupons cycle");
 
 				Date c = new Date(Calendar.getInstance().getTimeInMillis());
@@ -47,7 +47,6 @@ public class CouponExpirationDailyJob implements Runnable {
 				for (Coupon coupon : coupons) {
 					if (c.after(coupon.getEndDate())) {
 						couponDBDAO.deleteCoupon(coupon.getId());
-						System.out.println("coupon has been deleted" + coupon);
 
 					}
 

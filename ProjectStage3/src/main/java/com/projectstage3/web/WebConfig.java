@@ -16,9 +16,29 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class WebConfig {
 
+	public static class MapWrapper {
+		private Map<String, Session> tokensMap;
+
+		public Map<String, Session> getTokensMap() {
+			return tokensMap;
+		}
+
+		public void setTokensMap(Map<String, Session> tokensMap) {
+			this.tokensMap = tokensMap;
+		}
+
+	}
+
 	@Bean
 	public Map<String, Session> tokensMap() {
-		return new HashMap<String, Session>();
+		return new HashMap<>();
+
+	}
+
+	@Bean
+	public MapWrapper mapWrapper() {
+		return new MapWrapper();
+
 	}
 
 	@Bean

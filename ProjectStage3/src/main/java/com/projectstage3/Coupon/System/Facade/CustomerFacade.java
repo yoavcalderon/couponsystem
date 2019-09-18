@@ -25,16 +25,7 @@ public class CustomerFacade extends ClientFacade {
 	 * check the login credentials, if email and password fit or are true set the
 	 * Customer id for this facade and returns true otherwise returns false
 	 */
-//	public boolean login(String email, String password) throws CouponSystemException, NameOrPasswordNotFoundException {
-//		if (customerDAO.isCustomerExist(email, password)) {
-//			customer1 = customerDAO.getCustomerbyMailAndPassword(email, password);
-//			customerId = customerDAO.idExtractor(email, password);
-//			return true;
-//		} else {
-//
-//			return false;
-//		}
-//	}
+
 	@Override
 	public boolean login(String email, String password) throws CouponSystemException, NameOrPasswordNotFoundException {
 		customer1 = customerDAO.getCustomerbyMailAndPassword(email, password);
@@ -123,6 +114,19 @@ public class CustomerFacade extends ClientFacade {
 	}
 
 	/**
+	 * gets all coupons that are lower then the currently set maxprice
+	 * 
+	 * @param maxPrice
+	 * @return
+	 * @throws CouponSystemException
+	 */
+	public List<Coupon> getAllCoupons() throws CouponSystemException {
+		List<Coupon> coupons = couponDAO.getAllCoupouns();
+		return coupons;
+
+	}
+
+	/**
 	 * returns all coupons belonging to a customer by checking his id
 	 * 
 	 * @return
@@ -161,8 +165,3 @@ public class CustomerFacade extends ClientFacade {
 	}
 
 }
-// ---outdated functions kept for safety---
-//an *outdated* function to returns customer by id
-//	public Customer getCustomerById() throws CouponSystemException {
-//		return customerDAO.getCustomerbyId(customerId);
-//	}

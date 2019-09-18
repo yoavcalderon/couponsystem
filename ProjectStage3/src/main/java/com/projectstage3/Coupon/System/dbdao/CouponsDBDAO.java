@@ -35,8 +35,8 @@ public class CouponsDBDAO {
 	}
 
 //a database related function gets all coupons
-	public List<Coupon> getAllCoupouns() {
-		return repoCoup.findAll();
+	public ArrayList<Coupon> getAllCoupouns() {
+		return (ArrayList<Coupon>) repoCoup.findAll();
 
 	}
 
@@ -51,7 +51,7 @@ public class CouponsDBDAO {
 
 	}
 
-// a database related function that retuns a coupon entity after finding email and coupon existance validation
+// a database related function that returns a coupon entity after finding email and coupon existance validation
 	public Coupon getOneCoupon(int coupounId) throws CouponSystemException {
 		Optional<Coupon> coupon = repoCoup.findById(coupounId);
 		if (coupon.isPresent()) {

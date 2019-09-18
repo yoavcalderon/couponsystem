@@ -12,9 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "companies")
-//fields
+// fields
 public class Company {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +24,7 @@ public class Company {
 	private String name;
 	private String email;
 	private String password;
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "company")
 	private List<Coupon> coupons = new ArrayList<Coupon>();
 
@@ -41,14 +44,14 @@ public class Company {
 	public Company() {
 	}
 
-//CTOR
+	// CTOR
 	public Company(String name, String email, String password) {
 		super();
 		this.name = name;
 		this.email = email;
 		this.password = password;
 
-//getters setters
+		// getters setters
 	}
 
 	public void setName(String name) {
@@ -83,11 +86,10 @@ public class Company {
 		return coupons;
 	}
 
+	// to String
 	@Override
 	public String toString() {
 		return "Company [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + "]";
 	}
-
-//to string
 
 }

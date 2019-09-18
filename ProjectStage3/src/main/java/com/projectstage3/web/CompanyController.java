@@ -40,22 +40,8 @@ public class CompanyController {
 		return tokensMap.get(token);
 	}
 
-//	@PostMapping(path = "/login/{token}/{name}/{password}")
-//	public ResponseEntity<?> login(@PathVariable String name, @PathVariable String password) {
-//		try {
-//			if (companyFacade.login(name, password)) {
-//				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-//			}
-//			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
-//		} catch (CouponSystemException | NameOrPasswordNotFoundException e) {
-//
-//			return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
-//	}
-
 	@PostMapping(path = "/addCoupon/{token}")
 	public ResponseEntity<?> addCoupon(@RequestBody Coupon coupon, @PathVariable("token") String token) {
-		// System.out.println(tokensMap.get(token).getFacade());
 		Session s = isActive(token);
 		if (s != null) {
 			System.out.println(coupon.getTitle());
@@ -63,7 +49,6 @@ public class CompanyController {
 
 			try {
 				companyFacade.addCoupon(coupon);
-//				return new ResponseEntity<Boolean>(true, HttpStatus.CREATED);
 				coupon.setCompany(null);
 				return new ResponseEntity<Coupon>(coupon, HttpStatus.CREATED);
 			} catch (CouponSystemException | CouponAlreadyExistsException e) {

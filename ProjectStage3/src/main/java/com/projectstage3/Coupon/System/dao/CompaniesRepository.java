@@ -55,6 +55,4 @@ public interface CompaniesRepository extends JpaRepository<Company, Integer> {
 	 */
 	public Company getByEmailAndPassword(String email, String password) throws CouponSystemException;
 
-	// unused stand- by function
-//	public Company getCouponById(int id) throws CouponSystemException;
 }

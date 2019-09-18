@@ -34,20 +34,7 @@ public class CustomerController {
 		return tokensMap.get(token);
 	}
 
-//	@PostMapping(path = "/login/{token}")
-//	public ResponseEntity<?> login(@PathVariable("name") String name, @PathVariable("password") String password) {
-//		try {
-//			if (customerfacade.login(name, password)) {
-//				return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-//			}
-//			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
-//		} catch (CouponSystemException | NameOrPasswordNotFoundException e) {
-//			return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
-//
-//	}
-
-	@PostMapping(path = "/purchase/{token}")
+	@PostMapping(path = "/purchaseCoupon/{token}")
 	public ResponseEntity<?> purchaseCoupon(@RequestBody Coupon coupon, @PathVariable("token") String token) {
 		Session s = isActive(token);
 		if (s != null) {
@@ -113,7 +100,7 @@ public class CustomerController {
 	}
 
 	@GetMapping(path = "/getCustomerDetails/{token}")
-	public ResponseEntity<?> getCustomerDetails(@RequestBody Customer customer, @PathVariable("token") String token) {
+	public ResponseEntity<?> getCustomerDetails(@PathVariable("token") String token) {
 		Session s = isActive(token);
 		if (s != null) {
 			s.setLastAcssesed(System.currentTimeMillis());
@@ -123,6 +110,22 @@ public class CustomerController {
 				return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 
+		}
+		return new ResponseEntity<String>("session timeout", HttpStatus.UNAUTHORIZED);
+	}
+
+	@GetMapping(path = "/getAllCoupons/{token}")
+	public ResponseEntity<?> getAllCoupons(@PathVariable("token") String token) {
+		Session s = isActive(token);
+		if (s != null) {
+			s.setLastAcssesed(System.currentTimeMillis());
+			try {
+
+				return new ResponseEntity<List<Coupon>>(customerfacade.getAllCoupons(), HttpStatus.OK);
+			} catch (CouponSystemException e) {
+				// TODO Auto-generated catch block
+				return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 		}
 		return new ResponseEntity<String>("session timeout", HttpStatus.UNAUTHORIZED);
 	}

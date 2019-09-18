@@ -53,15 +53,12 @@ public class LoginManager {
 			break;
 		case COMPANY:
 
-//			CompanyFacade companyFacade = context.getBean(CompanyFacade.class);
-			System.out.println("before if");
 			if (cf.login(email, password)) {
 				System.out.println("you are now logged in company");
 				System.out.println(cf.getCompanyDetails());
 				return cf;
 
 			}
-			System.out.println("after if");
 
 			break;
 		case CUSTOMER:

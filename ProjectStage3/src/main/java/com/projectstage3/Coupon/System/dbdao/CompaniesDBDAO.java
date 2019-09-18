@@ -55,7 +55,6 @@ public class CompaniesDBDAO {
 		}
 		return null;
 
-//		return repocomp.getById(companyId);
 	}
 
 // returns a company by its email and password

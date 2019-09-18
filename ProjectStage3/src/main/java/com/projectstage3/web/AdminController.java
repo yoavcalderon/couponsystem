@@ -39,14 +39,6 @@ public class AdminController {
 	private Session isActive(String token) {
 		return tokensMap.get(token);
 	}
-//
-//	@PostMapping(path = "/login/{email}/{password}")
-//	public ResponseEntity<?> login(@PathVariable("email") String email, @PathVariable("password") String password) {
-//		if (adminfacade.login(email, password)) {
-//			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-//		}
-//		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
-//	}
 
 	@PostMapping(path = "/addCompany/{token}")
 	public ResponseEntity<?> addCompany(@RequestBody Company company, @PathVariable("token") String token) {

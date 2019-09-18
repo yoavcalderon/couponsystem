@@ -34,47 +34,15 @@ public class CompanyFacade extends ClientFacade {
 	 * @throws CouponSystemException
 	 */
 	@Override
-//	public boolean login(String email, String password) throws CouponSystemException, NameOrPasswordNotFoundException {
-//		if (companiesDAO.isCompanyExists(email, password)) {
-//			Company comp = companiesDAO.getOneCompany(email, password);
-//			if (comp.getId() != companyId) {
-//				companyId = comp.getId();
-//
-//			}
-//			companyId = comp.getId();
-//			System.out.println(companyId);
-//			return true;
-//		} else {
-//
-//			return false;
-//		}
-//	}
+
 	public boolean login(String email, String password) throws CouponSystemException, NameOrPasswordNotFoundException {
 		this.company = companiesDAO.getOneCompany(email, password);
 		if (company == null)
 			throw new NameOrPasswordNotFoundException();
-//		this.company = company.getId();
-//		this.company = company;
 
-//		this.company = company;
-//		System.out.println(this.companyId);
-		System.out.println(this.company);
 		return true;
 
 	}
-	// if (companiesDAO.isCompanyExists(email, password)) {
-//			company = companiesDAO.getOneCompany(email, password);
-//			companyId = companiesDAO.getCompanyId(email, password);
-//			System.out.println(companyId);
-//			companyId = companiesDAO.idExtractor(email, password);
-//			companyId = company.getId();
-//			System.out.println(companyId);
-//			return true;
-//		} else {
-//
-//			return false;
-//		}
-//	}
 
 	/**
 	 * adds a coupon after checking it per specified title
@@ -93,15 +61,10 @@ public class CompanyFacade extends ClientFacade {
 		} else {
 			System.out.println(this.company);
 			coupon.setCompany(this.company);
-//			company.getCompanyarraylist().add(coupon);
-			// companiesDAO.addCompany(company);
-//			couponDAO.updateCoupon(coupon);
-			couponDAO.addCoupon(coupon);
-//			companiesDAO.updateCompany(company);
-		}
 
-//			companiesDAO.updateCompany(company);
-//			company.getCompanyarraylist();
+			couponDAO.addCoupon(coupon);
+			;
+		}
 
 	}
 
@@ -114,16 +77,20 @@ public class CompanyFacade extends ClientFacade {
 	 * @throws CouponNotFoundException
 	 */
 	public void updateCoupon(Coupon coupon) throws CouponSystemException, CouponNotFoundException {
-		System.out.println(couponDAO.couponCheck(coupon.getId(), coupon.getTitle()));
-		if (couponDAO.couponCheck(coupon.getId(), coupon.getTitle())) {
-			couponDAO.updateCoupon(coupon);
-
+		Coupon couponFromDb = couponDAO.getOneCoupon(coupon.getId());
+		if (couponFromDb != null) {
+			couponFromDb.setAmount(coupon.getAmount());
+			couponFromDb.setCategory(coupon.getCategory());
+			couponFromDb.setDescription(coupon.getDescription());
+			couponFromDb.setStartDate(coupon.getStartDate());
+			couponFromDb.setEndDate(coupon.getEndDate());
+			couponFromDb.setImage(coupon.getImage());
+			couponFromDb.setPrice(coupon.getPrice());
+			couponFromDb.setTitle(coupon.getTitle());
+			couponDAO.updateCoupon(couponFromDb);
 		} else {
-
 			throw new CouponNotFoundException("updateCoupon failed coupon not found");
-
 		}
-
 	}
 
 	/**

@@ -27,17 +27,17 @@ public class CustomerDBDAO {
 	}
 
 //a database related function that deletes a customer after customer validation
-	public boolean deleteCustomer(Customer cust) throws CouponSystemException {
+	public void deleteCustomer(Customer cust) throws CouponSystemException {
 		if (repoCus.existsByEmailAndPassword(cust.getEmail(), cust.getPassword())) {
 			repoCus.deleteById(cust.getId());
 
 		} else {
 			throw new CouponSystemException("deleteCustomer failed customer not found ");
 		}
-		return false;
+//		return false;
 	}
 
-// a database related function  that udates customer after existance validation
+// a database related function  that updates customer after existance validation
 	public void updateCustomer(Customer cust) {
 		if (repoCus.existsById(cust.getId())) {
 			repoCus.save(cust);
@@ -51,7 +51,7 @@ public class CustomerDBDAO {
 	}
 
 //a database related function returns customer by email and name
-	public Customer getCustomerbyMailAndName(String email, String firstName) throws CouponSystemException {
+	public Customer getCustomerbyEmailAndFirstName(String email, String firstName) throws CouponSystemException {
 		return repoCus.getCustomerByEmailAndFirstName(email, firstName);
 	}
 
@@ -80,13 +80,3 @@ public class CustomerDBDAO {
 		return repoCus.getCustomerByEmailAndPassword(email, password).getId();
 	}
 }
-//--------outdated database functions kept for safety-----------
-//an *outdated* database related function that returns id of specified customer by email and name
-//	public int getCustomerId(String email, String FirstName) throws CouponSystemException {
-//		return repoCus.getCustomerByEmailAndFirstName(email, FirstName).getId();
-//
-//	}
-//an *outdated* database related function that returns customer by its id
-//	public Customer getCustomerbyId(int customerId) throws CouponSystemException {
-//		return (Customer) repoCus.getCustomerById(customerId);
-//	}

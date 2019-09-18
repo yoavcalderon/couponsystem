@@ -167,7 +167,8 @@ public class AdminFacade extends ClientFacade {
 	 */
 	public void deleteCustomer(Customer customer) throws CouponSystemException, CustomerDoesNotExistExcpetion {
 		// 1. get a customer from the database
-		Customer customerFromDb = customerDAO.getCustomerbyMailAndName(customer.getEmail(), customer.getFirstName());
+		Customer customerFromDb = customerDAO.getCustomerbyEmailAndFirstName(customer.getEmail(),
+				customer.getFirstName());
 		// 2. get all customer coupons and delete purchase history and coupons for
 		// customer
 		ArrayList<Coupon> coupons = (ArrayList<Coupon>) couponDAO.getAllCoupouns();
@@ -193,7 +194,7 @@ public class AdminFacade extends ClientFacade {
 	}
 
 	public Customer getOneCustomer(Customer customer) throws CouponSystemException {
-		return customerDAO.getCustomerbyMailAndName(customer.getEmail(), customer.getFirstName());
+		return customerDAO.getCustomerbyEmailAndFirstName(customer.getEmail(), customer.getFirstName());
 
 	}
 

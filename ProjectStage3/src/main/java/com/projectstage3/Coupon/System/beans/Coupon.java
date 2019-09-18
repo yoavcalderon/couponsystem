@@ -14,14 +14,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "coupons")
-//fields
+// fields
 public class Coupon {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@JsonIgnore
 	@JoinColumn(name = "companyId")
 	private Company company;
 	@Enumerated(EnumType.STRING)
@@ -34,30 +37,30 @@ public class Coupon {
 	private double price;
 	private String image;
 
-	public static class CouponJSON {
-		private int id;
-		private Category category;
-		private String title;
-		private String description;
-		private Date startDate;
-		private Date endDate;
-		private int amount;
-		private double price;
-		private String image;
+//	public static class CouponJSON {
+//		private int id;
+//		private Category category;
+//		private String title;
+//		private String description;
+//		private Date startDate;
+//		private Date endDate;
+//		private int amount;
+//		private double price;
+//		private String image;
+//
+//		public CouponJSON(Coupon coupon) {
+//			this.id = coupon.id;
+//			this.category = coupon.category;
+//			this.title = coupon.title;
+//			this.description = coupon.description;
+//			this.startDate = coupon.startDate;
+//			this.endDate = coupon.endDate;
+//			this.price = coupon.price;
+//			this.image = coupon.image;
+//		}
+//	}
 
-		public CouponJSON(Coupon coupon) {
-			this.id = coupon.id;
-			this.category = coupon.category;
-			this.title = coupon.title;
-			this.description = coupon.description;
-			this.startDate = coupon.startDate;
-			this.endDate = coupon.endDate;
-			this.price = coupon.price;
-			this.image = coupon.image;
-		}
-	}
-
-//CTOR
+	// CTOR
 	public Coupon(Company company, Category category, String title, String description, Date startDate, Date endDate,
 			int amount, double price, String image) {
 		this.company = company;
@@ -71,11 +74,11 @@ public class Coupon {
 		this.image = image;
 	}
 
-//empty CTOR
+	// empty CTOR
 	public Coupon() {
 	}
 
-//getters setters
+	// getters setters
 
 	public void setCompany(Company company) {
 		this.company = company;
@@ -157,8 +160,6 @@ public class Coupon {
 		return image;
 	}
 
-//to string
-
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Coupon) {
@@ -167,6 +168,7 @@ public class Coupon {
 			return false;
 	}
 
+	// to string
 	@Override
 	public String toString() {
 		return "Coupon [id=" + id + ", category=" + category + ", title=" + title + ", description=" + description

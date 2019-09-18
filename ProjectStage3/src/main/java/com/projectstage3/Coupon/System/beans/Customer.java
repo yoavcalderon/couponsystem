@@ -14,10 +14,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "customers")
 public class Customer {
-//fields
+	// fields
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -28,9 +30,10 @@ public class Customer {
 
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REMOVE }, fetch = FetchType.EAGER)
 	@JoinTable(name = "customers_vs_coupons", joinColumns = @JoinColumn(name = "id"))
+	@JsonIgnore
 	public List<Coupon> customerarraylist = new ArrayList<Coupon>();
 
-//CTOR
+	// CTOR
 	public Customer(String firstName, String lastName, String email, String password) {
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -44,7 +47,7 @@ public class Customer {
 		super();
 	}
 
-//getters setters
+	// getters setters
 	public int getId() {
 		return id;
 	}
@@ -99,7 +102,7 @@ public class Customer {
 	@Override
 	public String toString() {
 		return " Customer id :" + id + ", \nfirstName : " + firstName + ", \nlastName : " + lastName + ", \nemail : "
-				+ email + ", \npassword : " + password + ", \ncustomerarraylist : " + customerarraylist + "";
+				+ email + ", \npassword : " + password + "";
 	}
 
 }
