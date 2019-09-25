@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import springfox.documentation.builders.PathSelectors;
@@ -14,6 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
+@ComponentScan(basePackages = { "com.projectstage3" })
 public class WebConfig {
 
 	public static class MapWrapper {

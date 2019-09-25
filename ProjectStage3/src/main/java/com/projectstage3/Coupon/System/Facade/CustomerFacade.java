@@ -63,10 +63,12 @@ public class CustomerFacade extends ClientFacade {
 			// couponDAO.addCouponPurchase(customerId, coupon.getId());
 			coupon.setAmount(coupon.getAmount() - 1);
 			Customer cust = getCustomerDetails();
-
-			cust.customerarraylist.add(coupon);
+			System.out.println("im here");
+			cust.coupons.add(coupon);
 			couponDAO.updateCoupon(coupon);
+			System.out.println("im here 2");
 			customerDAO.updateCustomer(cust);
+			System.out.println("im here 3");
 			System.out.println("coupon was purchased");
 		}
 

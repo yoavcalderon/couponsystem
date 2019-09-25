@@ -4,13 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import com.projectstage3.Coupon.System.Facade.AdminFacade;
-import com.projectstage3.Coupon.System.Facade.CompanyFacade;
-import com.projectstage3.Coupon.System.Facade.CustomerFacade;
 import com.projectstage3.Coupon.System.Test.Test;
-import com.projectstage3.Coupon.System.dbdao.CompaniesDBDAO;
-import com.projectstage3.Coupon.System.dbdao.CouponsDBDAO;
-import com.projectstage3.Coupon.System.dbdao.CustomerDBDAO;
 import com.projectstage3.Coupon.System.exceptions.CouponSystemException;
 import com.projectstage3.Coupon.System.exceptions.NameOrPasswordNotFoundException;
 import com.projectstage3.Coupon.System.exceptions.adminexceptions.CompanyAlreadyExistsException;
@@ -27,13 +21,13 @@ public class ProjectStage3Application {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(ProjectStage3Application.class, args);
 
-		CouponsDBDAO couponsDBDAO = context.getBean(CouponsDBDAO.class);
-		CompaniesDBDAO companiesDBDAO = context.getBean(CompaniesDBDAO.class);
-		CustomerDBDAO customerDBDAO = context.getBean(CustomerDBDAO.class);
-
-		AdminFacade adminFacade = context.getBean(AdminFacade.class);
-		CustomerFacade customerFacade = context.getBean(CustomerFacade.class);
-		CompanyFacade companyFacade = context.getBean(CompanyFacade.class);
+//		CouponsDBDAO couponsDBDAO = context.getBean(CouponsDBDAO.class);
+//		CompaniesDBDAO companiesDBDAO = context.getBean(CompaniesDBDAO.class);
+//		CustomerDBDAO customerDBDAO = context.getBean(CustomerDBDAO.class);
+//
+//		AdminFacade adminFacade = context.getBean(AdminFacade.class);
+//		CustomerFacade customerFacade = context.getBean(CustomerFacade.class);
+//		CompanyFacade companyFacade = context.getBean(CompanyFacade.class);
 
 		System.out.println("==== test started ====");
 

@@ -1,6 +1,7 @@
 package com.projectstage3.Coupon.System.beans;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -11,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -36,29 +39,9 @@ public class Coupon {
 	private int amount;
 	private double price;
 	private String image;
-
-//	public static class CouponJSON {
-//		private int id;
-//		private Category category;
-//		private String title;
-//		private String description;
-//		private Date startDate;
-//		private Date endDate;
-//		private int amount;
-//		private double price;
-//		private String image;
-//
-//		public CouponJSON(Coupon coupon) {
-//			this.id = coupon.id;
-//			this.category = coupon.category;
-//			this.title = coupon.title;
-//			this.description = coupon.description;
-//			this.startDate = coupon.startDate;
-//			this.endDate = coupon.endDate;
-//			this.price = coupon.price;
-//			this.image = coupon.image;
-//		}
-//	}
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
+	@JoinTable(name = "customers_vs_coupons", joinColumns = @JoinColumn(name = "coupon_id"), inverseJoinColumns = @JoinColumn(name = "customer_id"))
+	List<Customer> customers;
 
 	// CTOR
 	public Coupon(Company company, Category category, String title, String description, Date startDate, Date endDate,

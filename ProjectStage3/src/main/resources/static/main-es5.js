@@ -162,7 +162,7 @@ module.exports = "<div>\n        <form>     \n            <td>\n            <inp
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\n    <table *ngIf= \"companies\">\n        <tr>\n            <th>Name</th>\n            <th>Email</th>\n            <th></th>\n        </tr>\n        <tr *ngFor=\"let company of companies\">\n            <td>{{company.name}}</td>\n            <td>{{company.email}}</td>\n            <td><input type=\"button\" value=\"delete\"  (click)=\"deleteCompany(company.id)\"/><br/></td>\n            <td><input type=\"button\" value=\"update\" name=\"update\" (click)=\"editorEnabler(company)\"></td>\n        </tr>\n        <tr *ngIf = \"updater==true\">\n            <td>\n                    <form>\n                            <input type=\"text\" name=\"companyName\"  [(ngModel)]=\"company.name\"/><br/>\n                            <input type=\"email\" name=\"companyEmail\"  [(ngModel)]=\"company.email\"/><br/>\n                            <input type=\"password\" name=\"companyPassword\" placeholder=\"Company password\" [(ngModel)]=\"company.password\"/><br/>\n                            <input type=\"button\" value=\"Update Company\" (click)=\"updateCompany(company)\" /><br/>\n                        </form>\n            </td>\n        </tr>\n\n    </table>\n     \n    </div>"
+module.exports = "<div>\n    <table *ngIf= \"companies\">\n        <tr>\n            <th>Name</th>\n            <th>Email</th>\n            <th></th>\n        </tr>\n        <tr *ngFor=\"let company of companies\">\n            <td>{{company.name}}</td>\n            <td>{{company.email}}</td>\n            <td><input type=\"button\" value=\"delete\"  (click)=\"deleteCompany(company.id)\"/><br/></td>\n            <td><input type=\"button\" value=\"update\" name=\"update\" (click)=\"editorEnabler(company)\"></td>\n        </tr>\n        <tr *ngIf = \"updater==true\">\n            <td>\n                    <form>\n                            <input type=\"email\" name=\"companyEmail\"  [(ngModel)]=\"company.email\"/><br/>\n                            <input type=\"password\" name=\"companyPassword\" placeholder=\"Company password\" [(ngModel)]=\"company.password\"/><br/>\n                            <input type=\"button\" value=\"updateCompany\" (click)=\"updateCompany(company)\" /><br/>\n                        </form>\n            </td>\n        </tr>\n\n    </table>\n     \n    </div>"
 
 /***/ }),
 
@@ -1128,7 +1128,7 @@ var AddCustomerComponent = /** @class */ (function () {
     AddCustomerComponent.prototype.createCustomer = function () {
         this.service.addCustomer(this.customer).subscribe(function (cust) {
             if (cust) {
-                alert(cust.firstName + "customer has been added");
+                alert(cust.firstName + " has been added");
             }
             else {
                 alert(cust.firstName + " has not been added");
@@ -1330,15 +1330,14 @@ var GetAllCompaniesComponent = /** @class */ (function () {
     };
     GetAllCompaniesComponent.prototype.deleteCompany = function (id) {
         this.service.deleteCompany(id).subscribe(function () {
-            alert("press once more to delete");
         });
         this.ngOnInit();
     };
     GetAllCompaniesComponent.prototype.updateCompany = function (company) {
         this.service.updateCompany(this.company).subscribe(function (comp) {
-            alert("press once more to update");
         });
         this.ngOnInit();
+        this.company.email = company.email;
     };
     GetAllCompaniesComponent.prototype.editorEnabler = function (company) {
         this.company = company;
@@ -1411,7 +1410,6 @@ var GetAllCustomersComponent = /** @class */ (function () {
         var _this = this;
         this.service.deleteCustomer(customer).subscribe(function () {
             _this.ngOnInit();
-            alert("press once more to delete");
         });
         this.ngOnInit();
     };
@@ -1421,7 +1419,6 @@ var GetAllCustomersComponent = /** @class */ (function () {
     //   }
     GetAllCustomersComponent.prototype.updateCustomer = function (customer) {
         this.service.updateCustomer(this.customer).subscribe(function (cust) {
-            alert("press once more to delete");
         });
         this.ngOnInit();
     };

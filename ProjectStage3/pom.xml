@@ -9,10 +9,10 @@
 		<version>2.1.5.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.projectstage2</groupId>
-	<artifactId>ProjectStage2</artifactId>
+	<groupId>com.projectstage3</groupId>
+	<artifactId>ProjectStage3</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ProjectStage2</name>
+	<name>ProjectStage3</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -28,18 +28,25 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
-			</dependency>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>mssql-jdbc</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<!-- 
 		<dependency>
 			<groupId>org.apache.derby</groupId>
 			<artifactId>derby</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

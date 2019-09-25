@@ -28,10 +28,10 @@ public class Customer {
 	private String email;
 	private String password;
 
-	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REMOVE }, fetch = FetchType.EAGER)
-	@JoinTable(name = "customers_vs_coupons", joinColumns = @JoinColumn(name = "id"))
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
+	@JoinTable(name = "customers_vs_coupons", joinColumns = @JoinColumn(name = "customer_id"), inverseJoinColumns = @JoinColumn(name = "coupon_id"))
 	@JsonIgnore
-	public List<Coupon> customerarraylist = new ArrayList<Coupon>();
+	public List<Coupon> coupons;
 
 	// CTOR
 	public Customer(String firstName, String lastName, String email, String password) {
@@ -75,7 +75,7 @@ public class Customer {
 	}
 
 	public List<Coupon> getCustomerarraylist() {
-		return customerarraylist;
+		return coupons;
 	}
 
 	public void setFirstName(String firstName) {
@@ -95,7 +95,7 @@ public class Customer {
 	}
 
 	public void setCustomerarraylist(ArrayList<Coupon> customerarraylist) {
-		this.customerarraylist = customerarraylist;
+		this.coupons = customerarraylist;
 	}
 
 //to string
