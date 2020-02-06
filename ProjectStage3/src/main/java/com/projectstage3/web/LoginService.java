@@ -40,11 +40,18 @@ public class LoginService {
 		Facade f = null;
 		try {
 			f = manager.login(email, password, ClientType.valueOf(type));
-			System.out.println(f);
-			session.setFacade(f);
-			session.setLastAcssesed(System.currentTimeMillis());
-			tokensMap.put(token, session);
-			return new ResponseEntity<String>("{\"token\":\"" + token + "\"}", HttpStatus.OK);
+			if (f != null) {
+
+				System.out.println(f);
+				session.setFacade(f);
+				session.setLastAcssesed(System.currentTimeMillis());
+				tokensMap.put(token, session);
+				return new ResponseEntity<String>("{\"token\":\"" + token + "\"}", HttpStatus.OK);
+			} else {
+				return new ResponseEntity<String>("login has failed", HttpStatus.UNAUTHORIZED);
+
+			}
+
 		} catch (CouponSystemException | NameOrPasswordNotFoundException e) {
 			return new ResponseEntity<String>("login has failed", HttpStatus.UNAUTHORIZED);
 		}
